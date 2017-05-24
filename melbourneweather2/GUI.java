@@ -3,12 +3,10 @@ package melbourneweather2;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import melbourneweathertimelapse.WeatherTimelapse;
 
@@ -24,12 +22,8 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.InternalFrameEvent;
 
 public class GUI  {
 
@@ -92,6 +86,7 @@ public class GUI  {
 	static JFreeChart chart;
 	static boolean update = false;
 	static JLabel imageLabel;
+	static JPanel imagePanel;
 
 
 	
@@ -153,17 +148,12 @@ public class GUI  {
 		displayGraph = new JPanel();
 		displayText.setLayout(new FlowLayout());
 		displayGraph.setLayout(new FlowLayout());
-		//InputStream input = GUI.class.getResourceAsStream("Rain_drops.jpg");
-		//image.getGraphics(input);
-		ImageIcon thisImage = new ImageIcon("Rain_drops.jpg");
-		//thisImage.setImage(image);
-		//image = ImageIO.read(input);
-		JLabel label = new JLabel(thisImage);
-		//stage2Panel1Sub.setBackground(label);
-		//stage2Panel1Sub2.add(label, BorderLayout.SOUTH);
-		//mainFrame.add(label, BorderLayout.SOUTH);
-		//imageLabel.add(input);
-		//mainFrame.revalidate();
+		imageLabel = new JLabel();
+		ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/melbourneweathertimelapse/Status-weather-showers-day-icon.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+		imageLabel.setIcon(imageIcon);
+		imagePanel = new JPanel();
+		imagePanel.add(imageLabel);
+		stage2Panel1Sub2.add(imagePanel, BorderLayout.EAST);
 
 		/****Drop down list for locations****/
 		locationCombo = new JComboBox<String>(locations);
@@ -506,7 +496,7 @@ public class GUI  {
 
 				/***************Change labels to output************/
 				output = new JLabel ("The rainfall is: " + melbourneweather2.Rainfall.getRainfall() + " MM");
-				output1 = new JLabel ("The temperature is: " + melbourneweather2.Temperature.getTemperature() + " 캜");
+				output1 = new JLabel ("The temperature is: " + melbourneweather2.Temperature.getTemperature() + " 째C");
 				output2 = new JLabel ("The time is:" + melbourneweather2.Temperature.getTemperatureTime());
 
 				/************panel formating*************/
@@ -539,7 +529,7 @@ public class GUI  {
 				//System.out.println("Object values " + objectTemp.toString());
 
 				/***************Change labels to output************/
-				output1 = new JLabel ("The temperature is: \t" + melbourneweather2.Temperature.getTemperature() + " 캜");
+				output1 = new JLabel ("The temperature is: \t" + melbourneweather2.Temperature.getTemperature() + " 째C");
 				output2 = new JLabel ("The time is: \t" + melbourneweather2.Temperature.getTemperatureTime());
 				output3 = new JLabel ("The location is: " + melbourneweather2.Temperature.getTemperatureLoc());
 
@@ -632,7 +622,7 @@ public class GUI  {
 			System.out.println("This is method 2");
 			tempTitle = "Temperature at: ";
 			titel = "temperature";
-			measureMent = " 캜";
+			measureMent = " 째C";
 			if(update){
 				XYSeries series = new XYSeries("Temperature");
 				for(int i = 0;i < TempTrueArrayUpdate.size();i++){
@@ -660,7 +650,7 @@ public class GUI  {
 			System.out.println("This is method 3");
 			BothTitle = "Rainfall and temperature at: ";
 			titel = "rainfall and temperature";
-			measureMent = "(mm)&(캜)";
+			measureMent = "(mm)&(째C)";
 			if(update){
 				XYSeries series = new XYSeries("RainFall for Both");
 				XYSeries series2 = new XYSeries("Temperature for Both");
